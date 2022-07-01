@@ -1,0 +1,49 @@
+{
+  "name": "@justforlxz/tools",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node --project tsconfig.build.json' src/main.ts",
+    "build": "npm run clean && tsc --project tsconfig.build.json",
+    "build:prod": "npm run clean && tsc --project tsconfig.production.json",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+    "publish": "npm run build:prod && npm publish"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justforlxz/tools.git"
+  },
+  "author": "justforlxz <justforlxz@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/justforlxz/tools/issues"
+  },
+  "bin": {
+    "tag-pr": "./dist/bin/tag-pr.js",
+    "tag-sync": "./dist/bin/tag-sync.js",
+    "tag-check": "./dist/bin/tag-check.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@octokit/auth-app": "^4.0.4",
+    "@octokit/request-error": "^3.0.0",
+    "@octokit/rest": "^18.12.0",
+    "@octokit/types": "^6.39.0",
+    "commander": "^9.4.0",
+    "js-yaml": "^4.1.0",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^18.0.0",
+    "ts-node": "^10.8.1"
+  }
+}
