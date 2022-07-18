@@ -69,8 +69,6 @@ if (process.env.NODE_ENV === 'development') {
     repo: path.basename(path.resolve(commander.config), '.json')
   };
   const octokit = new Octokit({ auth: await GetToken(app, repo) });
-  const { tag, object: sha, message: description } = config.data;
-  const { name: author, email } = config.data.tagger;
-  await Tag(octokit, owner, repo_name, sha, tag, description, author, email);
-  console.log(`[${repo_name}]: tag <${tag}> created.`);
+  await Tag(octokit, config);
+  console.log(`[${repo_name}]: tag <${config.data.tag}> created.`);
 })()

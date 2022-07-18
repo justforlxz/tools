@@ -107,7 +107,6 @@ if (process.env.NODE_ENV === 'development') {
     }
   }
 
-  const { tag, object:sha } = config.data;
-  exit(await Check(octokit, owner, repo_name, sha, tag))
+  exit(await Check(octokit, config))
 }
 )()
