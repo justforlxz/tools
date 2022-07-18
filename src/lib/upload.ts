@@ -9,6 +9,12 @@ export class Github {
   constructor(octokit: Octokit) {
     this.octokit = octokit;
   }
+}
+
+export class Upload extends Github {
+  constructor(octokit: Octokit) {
+    super(octokit)
+  }
   async uploadFile(root: Root, context: Context) {
     const path = `tags/${root.repo}.json`;
     const branch = `request-${root.repo}-${root.data.tag}`;

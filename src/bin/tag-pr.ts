@@ -2,7 +2,7 @@
 
 import { Octokit } from "@octokit/rest";
 import { App, Context } from "../lib/context";
-import { Github } from "../lib/upload";
+import { Upload } from "../lib/upload";
 import { Root } from '../lib/types';
 import { InitCommand } from "../lib/commander";
 import { exit } from "process";
@@ -67,5 +67,5 @@ const app: App = {
   APP_PRIVATE_KEY: fs.readFileSync(path.resolve(commander.private_key)).toString()
 };
 
-const github = new Github(new Octokit(GetToken(app, context)));
+const github = new Upload(new Octokit(GetToken(app, context)));
 github.uploadFile(config, context)

@@ -1,6 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { Root } from "./types";
 
+
+
 export async function Check(octokit: Octokit, repo: Root): Promise<number> {
   // TODO: 应该从外部传入
   const owner = 'linuxdeepin'
