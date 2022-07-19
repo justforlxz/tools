@@ -93,7 +93,7 @@ if (process.env.NODE_ENV === 'development') {
 
   const repo: Context = {
     owner: commander.owner,
-    repo: path.basename(path.resolve(commander.config), '.json')
+    repo: config.repo
   };
 
   const octokit = new Octokit({ auth: await GetToken(app, repo) });
