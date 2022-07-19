@@ -10,7 +10,7 @@
     "build": "npm run clean && tsc --project tsconfig.build.json",
     "build:prod": "npm run clean && tsc --project tsconfig.production.json",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
-    "publish": "npm run build:prod && npm publish"
+    "publish:latest": "npm run build:prod && npm publish --tag latest"
   },
   "keywords": [
     "cli"
@@ -34,6 +34,7 @@
   ],
   "dependencies": {
     "@octokit/auth-app": "^4.0.4",
+    "@octokit/core": "^4.0.4",
     "@octokit/request-error": "^3.0.0",
     "@octokit/rest": "^18.12.0",
     "@octokit/types": "^6.39.0",
