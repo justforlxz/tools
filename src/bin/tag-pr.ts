@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 
-import { Octokit } from "@octokit/rest";
-import { App, Context } from "../lib/context";
-import { Upload } from "../lib/upload";
+import { Octokit } from '@octokit/rest';
+import { App, Context } from '../lib/context';
+import { Upload } from '../lib/upload';
 import { Root } from '../lib/types';
-import { InitCommand } from "../lib/commander";
-import { exit } from "process";
+import { InitCommand } from '../lib/commander';
+import { exit } from 'process';
 import * as path from 'path';
 import * as fs from 'fs';
-import { GetToken } from "../lib/token";
-import { yamlLoad } from "../lib/yaml";
+import { GetToken } from '../lib/token';
+import { yamlLoad } from '../lib/yaml';
 
 interface AppArgs {
   id: number;
@@ -21,34 +21,34 @@ interface AppArgs {
 
 const commander = InitCommand<AppArgs>([
   {
-    short: "-i",
-    long: "--id <id>",
+    short: '-i',
+    long: '--id <id>',
     required: true,
-    description: "set app id",
-    default: ''
+    description: 'set app id',
+    default: '',
   },
   {
     short: '-f',
     long: '--private_key <private key>',
     required: true,
     description: 'private key file path',
-    default: ''
+    default: '',
   },
   {
     short: '-o',
     long: '--owner <owner>',
     required: false,
     description: 'github owner name',
-    default: 'linuxdeepin'
+    default: 'linuxdeepin',
   },
   {
     short: '-c',
     long: '--config <config>',
     required: true,
     description: 'repo json',
-    default: ''
-  }
-])
+    default: '',
+  },
+]);
 
 if (!commander.config) {
   console.error(`need set work directory`);
@@ -59,13 +59,17 @@ const config: Root = yamlLoad<Root>(commander.config);
 
 const context: Context = {
   owner: commander.owner,
-  repo: 'release'
-}
+  repo: 'release',
+};
 
 const app: App = {
   APP_ID: commander.id,
-  APP_PRIVATE_KEY: fs.readFileSync(path.resolve(commander.private_key)).toString()
+  APP_PRIVATE_KEY: fs
+    .readFileSync(path.resolve(commander.private_key))
+    .toString(),
 };
 
-const github = new Upload(new Octokit(GetToken(app, context)));
-github.uploadFile(config, context)
+(async () => {
+  const github = new Upload(new Octokit({ auth: await GetToken(app, context) }));
+  await github.uploadFile(config, context);
+})()

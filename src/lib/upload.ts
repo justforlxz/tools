@@ -29,7 +29,6 @@ export class Upload extends Github {
         ref: `heads/${branch}`
       });
     } catch (e) {
-
     }
 
     await this.octokit.git.createRef({
@@ -39,6 +38,19 @@ export class Upload extends Github {
     });
 
     try {
+      let contentRef: string = undefined;
+      try {
+        const content = (await this.octokit.repos.getContent({
+          ...context,
+          path,
+        })).data as {
+          sha: string;
+        };
+        contentRef = content.sha;
+      }
+      catch (err) {
+      }
+
       await this.octokit.repos.createOrUpdateFileContents({
         ...context,
         path,
@@ -52,18 +64,23 @@ export class Upload extends Github {
         author: {
           name: 'justforlxz',
           email: 'justforlxz@gmail.com',
-        }
+        },
+        sha: contentRef
       });
 
       // 提交 pull request
       await this.octokit.pulls.create({
         ...context,
-        head: `deepin-community:${branch}`,
+        head: `${context.owner}:${branch}`,
         base: 'master',
         title: `[${root.repo}] request create tag ${root.data.tag}`
       });
     } catch (e) {
       console.error(e);
+      await this.octokit.git.deleteRef({
+        ...context,
+        ref: `heads/${branch}`
+      });
     }
   }
 }
