@@ -10,7 +10,7 @@
     "build": "npm run clean && tsc --project tsconfig.build.json",
     "build:prod": "npm run clean && tsc --project tsconfig.production.json",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
-    "publish": "npm run build:prod && npm publish --tag latest"
+    "publish:latest": "npm run build:prod && npm publish --tag latest"
   },
   "keywords": [
     "cli"
